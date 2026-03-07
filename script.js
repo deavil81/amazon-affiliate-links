@@ -71,7 +71,7 @@ productContainer.innerHTML += `
 
 <h3>${product.name}</h3>
 
-<p>${product.description}</p>
+<p>${product.description.substring(0,120)}...</p>
 
 <p class="price">₹${product.price}</p>
 
@@ -97,5 +97,6 @@ renderProducts(filtered);
 }
 
 loadProducts();
+
 
 
