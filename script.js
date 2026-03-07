@@ -1,35 +1,23 @@
-const products = [
-{
-name:"Wireless Headphones",
-description:"Premium sound quality with long battery life.",
-image:"https://images.unsplash.com/photo-1518444065439-e933c06ce9cd",
-link:"#"
-},
-{
-name:"Smart Watch",
-description:"Track fitness, calls and notifications.",
-image:"https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b",
-link:"#"
-},
-{
-name:"Gaming Mouse",
-description:"High precision mouse for gaming.",
-image:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7",
-link:"#"
-},
-{
-name:"Bluetooth Speaker",
-description:"Loud bass and portable design.",
-image:"https://images.unsplash.com/photo-1519677100203-a0e668c92439",
-link:"#"
-}
-]
+const sheetURL =
+"https://opensheet.elk.sh/YOUR_SHEET_ID/1Q9y-CGlebZysgX5Kl5hOAa0H8y8GTP22spqkLPE3GtA";
 
-const container=document.getElementById("products")
+const productContainer =
+document.getElementById("products");
 
-products.forEach(product=>{
+const categoryContainer =
+document.getElementById("categories");
 
-container.innerHTML+=`
+let categories = new Set();
+
+fetch(sheetURL)
+.then(res => res.json())
+.then(data => {
+
+data.forEach(product => {
+
+categories.add(product.category)
+
+productContainer.innerHTML += `
 
 <div class="product">
 
@@ -39,12 +27,28 @@ container.innerHTML+=`
 
 <p>${product.description}</p>
 
-<a class="buy-btn" href="${product.link}" target="_blank">
-Buy Now
+<p class="price">₹${product.price}</p>
+
+<a href="${product.link}" class="buy" target="_blank">
+View Deal
 </a>
 
 </div>
 
-`
+`;
 
-})
+});
+
+categories.forEach(cat => {
+
+categoryContainer.innerHTML += `
+
+<div class="category">
+${cat}
+</div>
+
+`;
+
+});
+
+});
