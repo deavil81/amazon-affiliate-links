@@ -1,4 +1,4 @@
-const SHEET_ID = "1Q9y-CGlebZysgX5Kl5hOAa0H8y8GTP22spqkLPE3GtA";
+const SHEET_ID = 1Q9y-CGlebZysgX5Kl5hOAa0H8y8GTP22spqkLPE3GtA;
 
 const sheets = [
 "electronic",
@@ -97,3 +97,4 @@ renderProducts(filtered);
 }
 
 loadProducts();
+
