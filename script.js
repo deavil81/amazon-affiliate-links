@@ -67,7 +67,7 @@ productContainer.innerHTML += `
 
 <p>${product.description.substring(0,120)}...</p>
 
-<p class="price">₹${product.price}</p>
+₹${Number(product.price).toLocaleString()}
 
 <a href="${product.link}" class="buy" target="_blank">
 View Deal
@@ -91,6 +91,7 @@ renderProducts(filtered);
 }
 
 loadProducts();
+
 
 
 
