@@ -42,18 +42,12 @@ renderProducts(allProducts);
 
 }
 
-function createCategory(category){
+function filterCategory(category){
 
-categoryContainer.innerHTML += `
+const filtered =
+allProducts.filter(p => p.category === category);
 
-<div class="category"
-onclick="filterCategory('${category}')">
-
-${category}
-
-</div>
-
-`;
+renderProducts(filtered);
 
 }
 
@@ -97,6 +91,7 @@ renderProducts(filtered);
 }
 
 loadProducts();
+
 
 
 
