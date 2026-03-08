@@ -16,20 +16,29 @@ async function loadProducts(){
 
 for(const sheet of sheets){
 
-const url = `https://opensheet.elk.sh/${SHEET_ID}/${sheet}`;
+const url = `https://opensheet.elk.sh/${SHEET_ID}/${sheet}`
 
-const res = await fetch(url);
-const data = await res.json();
+const res = await fetch(url)
+
+const data = await res.json()
 
 data.forEach(product => {
-product.category = sheet;
-allProducts.push(product);
-});
 
-createCategory(sheet);
+product.category = sheet
+
+allProducts.push(product)
+
+})
+
+createCategory(sheet)
 
 }
 
+renderProducts(allProducts)
+
+renderSections()
+
+}
 renderProducts(allProducts);
 
 }
