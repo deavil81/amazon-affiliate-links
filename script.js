@@ -33,7 +33,56 @@ createCategory(sheet);
 renderProducts(allProducts);
 
 }
+function renderSections(){
 
+const topDeals =
+allProducts.slice(0,4)
+
+const bestSellers =
+allProducts.slice(4,8)
+
+const budgetDeals =
+allProducts.filter(p => Number(p.price) <= 999)
+
+renderCustom(topDeals,"topDeals")
+renderCustom(bestSellers,"bestSellers")
+renderCustom(budgetDeals,"budgetDeals")
+
+}
+
+
+function renderCustom(products,containerID){
+
+const container =
+document.getElementById(containerID)
+
+container.innerHTML=""
+
+products.forEach(product=>{
+
+container.innerHTML+=`
+
+<div class="product">
+
+<img src="${product.image}">
+
+<h3>${product.name}</h3>
+
+<p>${product.description.substring(0,100)}...</p>
+
+<div class="price">₹${product.price}</div>
+
+<a href="${product.link}" class="buy" target="_blank">
+View Deal
+</a>
+
+</div>
+
+`
+
+})
+
+}
 function createCategory(category){
 
 categoryContainer.innerHTML += `
