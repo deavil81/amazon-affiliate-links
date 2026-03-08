@@ -16,56 +16,59 @@ async function loadProducts(){
 
 for(const sheet of sheets){
 
-const url = `https://opensheet.elk.sh/${SHEET_ID}/${sheet}`
+const url = `https://opensheet.elk.sh/${SHEET_ID}/${sheet}`;
 
-const res = await fetch(url)
+const res = await fetch(url);
 
-const data = await res.json()
+const data = await res.json();
 
 data.forEach(product => {
 
-product.category = sheet
+product.category = sheet;
 
-allProducts.push(product)
+allProducts.push(product);
 
-})
+});
 
-createCategory(sheet)
-
-}
-
-renderProducts(allProducts)
-
-renderSections()
+createCategory(sheet);
 
 }
+
 renderProducts(allProducts);
 
+renderSections();
+
 }
+
+
+
 function renderSections(){
 
-const topDeals =
-allProducts.slice(0,4)
+const topDeals = allProducts.slice(0,4);
 
-const bestSellers =
-allProducts.slice(4,8)
+const bestSellers = allProducts.slice(4,8);
 
 const budgetDeals =
-allProducts.filter(p => Number(p.price) <= 999)
+allProducts.filter(p => Number(p.price) <= 999);
 
-renderCustom(topDeals,"topDeals")
-renderCustom(bestSellers,"bestSellers")
-renderCustom(budgetDeals,"budgetDeals")
+renderCustom(topDeals,"topDeals");
+
+renderCustom(bestSellers,"bestSellers");
+
+renderCustom(budgetDeals,"budgetDeals");
 
 }
+
 
 
 function renderCustom(products,containerID){
 
 const container =
-document.getElementById(containerID)
+document.getElementById(containerID);
 
-container.innerHTML=""
+if(!container) return;
+
+container.innerHTML="";
 
 products.forEach(product=>{
 
@@ -87,11 +90,14 @@ View Deal
 
 </div>
 
-`
+`;
 
-})
+});
 
 }
+
+
+
 function createCategory(category){
 
 categoryContainer.innerHTML += `
@@ -102,13 +108,18 @@ ${category}
 
 }
 
+
+
 function filterCategory(category){
 
-const filtered = allProducts.filter(p => p.category === category);
+const filtered =
+allProducts.filter(p => p.category === category);
 
 renderProducts(filtered);
 
 }
+
+
 
 function renderProducts(products){
 
@@ -117,6 +128,7 @@ productContainer.innerHTML = "";
 products.forEach(product => {
 
 productContainer.innerHTML += `
+
 <div class="product">
 
 <img src="${product.image}">
@@ -132,11 +144,13 @@ View Deal
 </a>
 
 </div>
+
 `;
 
 });
 
 }
 
+
+
 loadProducts();
-renderSections();
