@@ -19,7 +19,41 @@ width:250px;
 border-radius:5px;
 border:none;
 }
+.today-deals{
+padding:40px;
+max-width:1300px;
+margin:auto;
+}
 
+.deal-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-top:20px;
+}
+
+.deal-card{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
+cursor:pointer;
+font-weight:bold;
+font-size:18px;
+transition:0.3s;
+}
+
+.deal-card p{
+font-size:14px;
+font-weight:normal;
+color:#666;
+margin-top:6px;
+}
+
+.deal-card:hover{
+transform:translateY(-5px);
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
 .hero{
 background:#222;
 color:white;
@@ -132,6 +166,7 @@ color:white;
 text-align:center;
 padding:20px;
 }
+
 
 
 
