@@ -60,11 +60,19 @@ products.forEach(product => {
 
 productContainer.innerHTML += `
 <div class="product">
+
 <img src="${product.image}">
+
 <h3>${product.name}</h3>
+
 <p>${product.description.substring(0,120)}...</p>
+
 <p class="price">₹${Number(product.price).toLocaleString()}</p>
-<a href="${product.link}" class="buy" target="_blank">View Deal</a>
+
+<a href="${product.link}" class="buy" target="_blank">
+View Deal
+</a>
+
 </div>
 `;
 
