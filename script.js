@@ -130,3 +130,4 @@ View Deal
 }
 
 loadProducts();
+renderSections();
