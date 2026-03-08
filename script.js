@@ -7,11 +7,8 @@ const sheets = [
 "fitness"
 ];
 
-const productContainer =
-document.getElementById("products");
-
-const categoryContainer =
-document.getElementById("categories");
+const productContainer = document.getElementById("products");
+const categoryContainer = document.getElementById("categories");
 
 let allProducts = [];
 
@@ -19,8 +16,7 @@ async function loadProducts(){
 
 for(const sheet of sheets){
 
-const url =
-`https://opensheet.elk.sh/${SHEET_ID}/${sheet}`;
+const url = `https://opensheet.elk.sh/${SHEET_ID}/${sheet}`;
 
 const res = await fetch(url);
 
@@ -39,6 +35,20 @@ createCategory(sheet);
 }
 
 renderProducts(allProducts);
+
+}
+
+function createCategory(category){
+
+categoryContainer.innerHTML += `
+
+<div class="category" onclick="filterCategory('${category}')">
+
+${category}
+
+</div>
+
+`;
 
 }
 
@@ -67,7 +77,7 @@ productContainer.innerHTML += `
 
 <p>${product.description.substring(0,120)}...</p>
 
-₹${Number(product.price).toLocaleString()}
+<p class="price">₹${Number(product.price).toLocaleString()}</p>
 
 <a href="${product.link}" class="buy" target="_blank">
 View Deal
@@ -81,18 +91,4 @@ View Deal
 
 }
 
-function filterCategory(category){
-
-const filtered =
-allProducts.filter(p => p.category === category);
-
-renderProducts(filtered);
-
-}
-
 loadProducts();
-
-
-
-
-
