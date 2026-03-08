@@ -54,6 +54,13 @@ margin-top:6px;
 transform:translateY(-5px);
 box-shadow:0 10px 25px rgba(0,0,0,0.15);
 }
+.top-deals,
+.best-sellers,
+.budget-deals{
+padding:40px;
+max-width:1300px;
+margin:auto;
+}
 .hero{
 background:#222;
 color:white;
@@ -166,6 +173,7 @@ color:white;
 text-align:center;
 padding:20px;
 }
+
 
 
 
