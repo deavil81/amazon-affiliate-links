@@ -6,8 +6,8 @@
     <title>Best Deals Hub | Amazon India Deals - Save Up to 70% on Electronics, Fashion & More</title>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Best Deals Hub - Find the best Amazon India deals on Electronics, Fashion, Home Appliances, and Fitness. Save up to 70% on trending products. Daily updated deals.">
-    <meta name="keywords" content="Amazon deals India, best deals today, electronics deals India, fashion deals, home appliances sale, OnePlus deals, Samsung offers, Amazon coupon codes, affordable shopping India, daily deals">
+    <meta name="description" content="Best Deals Hub - Find the best Amazon India deals on Electronics, Fashion, Home Appliances, and Fitness. Save up to 70% on trending products. Daily updated deals from Amazon.in.">
+    <meta name="keywords" content="Amazon deals India, best deals today, electronics deals India, fashion deals, home appliances sale, OnePlus deals, Samsung offers, Amazon coupon codes, affordable shopping India, daily deals, Amazon affiliate deals">
     <meta name="author" content="Best Deals Hub">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="googlebot" content="index, follow">
@@ -18,7 +18,7 @@
     <meta property="og:title" content="Best Deals Hub | Amazon India - Save Up to 70%">
     <meta property="og:description" content="Discover amazing deals on Electronics, Fashion, Home Appliances & Fitness. Updated daily with best prices from Amazon India.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1607083206968-13611e3d76db?w=1200">
-    <meta property="og:url" content="https://yourdomain.com">
+    <meta property="og:url" content="https://deavil81.github.io/amazon-affiliate-links/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Best Deals Hub">
     
@@ -29,7 +29,7 @@
     <meta name="twitter:image" content="https://images.unsplash.com/photo-1607083206968-13611e3d76db?w=1200">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://yourdomain.com">
+    <link rel="canonical" href="https://deavil81.github.io/amazon-affiliate-links/">
     
     <!-- Viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
@@ -49,13 +49,13 @@
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "Best Deals Hub",
-        "url": "https://yourdomain.com",
+        "url": "https://deavil81.github.io/amazon-affiliate-links/",
         "description": "Best Amazon India deals on Electronics, Fashion, Home Appliances and Fitness products. Save up to 70% on trending items.",
         "potentialAction": {
             "@type": "SearchAction",
             "target": {
                 "@type": "EntryPoint",
-                "urlTemplate": "https://yourdomain.com/search?q={search_term_string}"
+                "urlTemplate": "https://deavil81.github.io/amazon-affiliate-links/?q={search_term_string}"
             },
             "query-input": "required name=search_term_string"
         }
@@ -71,7 +71,7 @@
 
     <!-- HERO BANNER -->
     <section class="hero-banner">
-        <img src="https://images.unsplash.com/photo-1607083206968-13611e3d76db?w=1200" alt="Best Amazon Deals India - Save up to 70% on Electronics, Fashion, Home Appliances" width="1200" height="400">
+        <img src="https://images.unsplash.com/photo-1607083206968-13611e3d76db?w=1200" alt="Best Amazon Deals India - Save up to 70% on Electronics, Fashion, Home Appliances" width="1200" height="400" loading="eager">
         <div class="hero-text">
             <h2>🔥 Save up to 70% on Trending Products</h2>
             <p>Electronics • Fashion • Home Appliances • Fitness</p>
@@ -127,6 +127,29 @@
         <div id="products"></div>
     </section>
 
+    <!-- SEO Content Section - Helps with Google Ranking -->
+    <section class="seo-content">
+        <h2>Why Shop at Best Deals Hub?</h2>
+        <p>We curate the <strong>best Amazon India deals</strong> on <strong>electronics, fashion, home appliances, and fitness products</strong>. Our team updates deals daily to ensure you get the lowest prices on trending items like <strong>OnePlus Nord Buds, Samsung Galaxy Buds, Carrier ACs, and more</strong>.</p>
+        
+        <h3>Popular Categories:</h3>
+        <ul>
+            <li><a href="#" onclick="filterCategoryFromCard('electronic'); return false;">Electronics Deals India - Mobiles, Earbuds, ACs</a></li>
+            <li><a href="#" onclick="filterCategoryFromCard('fashion'); return false;">Fashion Deals - Kurtis, Skirts, Western Wear</a></li>
+            <li><a href="#" onclick="filterCategoryFromCard('home appliances'); return false;">Home Appliances - ACs, Coolers, Smart Home</a></li>
+            <li><a href="#" onclick="filterCategoryFromCard('fitness'); return false;">Fitness Gear - Shoes, Trackers, Equipment</a></li>
+        </ul>
+        
+        <h3>Why Trust Us?</h3>
+        <p>As an <strong>Amazon Associate</strong>, we provide genuine, updated deals directly from Amazon India. Every product link goes to the official Amazon listing, ensuring secure purchases and the best prices available.</p>
+        
+        <h3>Today's Top Deals:</h3>
+        <p>Check out our <strong>Top Deals Today</strong> section for the biggest discounts on premium brands. We feature <strong>OnePlus, Samsung, Carrier, Voltas, Noise, realme</strong> and more. All deals are verified and updated in real-time.</p>
+        
+        <h3>Save Money on Amazon India:</h3>
+        <p>Shopping through Best Deals Hub helps you save money with zero extra cost. We find the best coupons, discounts, and offers so you don't have to search multiple websites. Bookmark this page for daily updates on <strong>Amazon.in deals</strong>.</p>
+    </section>
+
     <footer>
         <p>© 2026 Best Deals Hub | Amazon Affiliate Website</p>
         <p>Best Deals Hub is a participant in the Amazon Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.in.</p>
@@ -134,46 +157,6 @@
     </footer>
 
     <script src="script.js"></script>
-
-    <!-- Add this for better indexing -->
-    <script>
-        // Add structured data for products when loaded
-        function addProductStructuredData() {
-            const products = document.querySelectorAll('.product');
-            const productData = [];
-            
-            products.forEach((product, index) => {
-                const name = product.querySelector('h3')?.innerText || '';
-                const price = product.querySelector('.price')?.innerText || '';
-                const link = product.querySelector('.buy')?.href || '';
-                
-                if (name && price && link) {
-                    productData.push({
-                        "@context": "https://schema.org",
-                        "@type": "Product",
-                        "name": name,
-                        "offers": {
-                            "@type": "Offer",
-                            "price": price.replace('₹', '').replace(',', ''),
-                            "priceCurrency": "INR",
-                            "availability": "https://schema.org/InStock",
-                            "url": link
-                        }
-                    });
-                }
-            });
-            
-            if (productData.length > 0) {
-                const script = document.createElement('script');
-                script.type = 'application/ld+json';
-                script.textContent = JSON.stringify(productData);
-                document.head.appendChild(script);
-            }
-        }
-        
-        // Wait for products to load
-        setTimeout(addProductStructuredData, 3000);
-    </script>
 </body>
 
 </html>
