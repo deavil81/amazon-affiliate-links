@@ -304,9 +304,10 @@ footer {
 }
 
 /* ============================================ */
-/* MOBILE RESPONSIVE */
+/* MOBILE RESPONSIVE - 3 COLUMNS ON MOBILE */
 /* ============================================ */
 
+/* Mobile (under 768px) - 3 columns! */
 @media (max-width: 768px) {
     header {
         padding: 15px;
@@ -314,134 +315,176 @@ footer {
     
     header h1 {
         font-size: 20px;
+        text-align: center;
     }
     
     .hero-banner {
-        height: 250px;
+        height: 200px;
     }
     
     .hero-text {
-        padding: 12px 20px;
+        padding: 10px 15px;
         width: 90%;
     }
     
     .hero-text h2 {
-        font-size: 18px;
+        font-size: 14px;
     }
     
     .hero-text p {
-        font-size: 11px;
+        font-size: 9px;
     }
     
     section {
-        margin: 12px;
-        padding: 16px;
+        margin: 10px;
+        padding: 12px;
     }
     
     section h2 {
-        font-size: 18px;
+        font-size: 16px;
+        margin-bottom: 12px;
     }
     
     .section-header h2 {
-        font-size: 20px;
+        font-size: 18px;
     }
     
-    /* 1 column on mobile */
+    /* 3 columns on mobile - key change! */
     .product-grid {
-        grid-template-columns: 1fr !important;
-        gap: 15px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 8px;
     }
     
     .product {
         height: auto;
-        min-height: 380px;
+        min-height: auto;
+        padding: 8px;
     }
     
     .product img {
-        height: 160px;
+        height: 80px;
+        margin-bottom: 6px;
     }
     
     .product h3 {
-        font-size: 14px;
+        font-size: 10px;
+        min-height: 28px;
+        margin-bottom: 4px;
+    }
+    
+    .product p {
+        font-size: 8px;
+        display: none; /* Hide description on mobile to save space */
     }
     
     .price {
-        font-size: 18px;
+        font-size: 11px;
+        margin-bottom: 6px;
     }
     
-    /* 2 columns for categories */
+    .old-price {
+        font-size: 8px;
+    }
+    
+    .discount {
+        font-size: 8px;
+    }
+    
+    .buy {
+        padding: 5px 8px;
+        font-size: 9px;
+        margin-top: 4px;
+    }
+    
+    /* 2 columns for category cards */
     .deal-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+        gap: 8px;
     }
     
     .deal-card {
-        padding: 15px;
-        font-size: 14px;
+        padding: 10px;
+        font-size: 12px;
     }
     
     .deal-card p {
-        font-size: 11px;
+        font-size: 9px;
+        margin-top: 4px;
     }
     
     .category-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+        gap: 8px;
     }
     
     .category {
-        padding: 12px;
-        font-size: 13px;
+        padding: 10px;
+        font-size: 11px;
     }
     
     .view-more-btn {
-        padding: 10px 24px;
-        font-size: 13px;
-        width: 100%;
-        max-width: 200px;
+        padding: 8px 16px;
+        font-size: 11px;
+        max-width: 150px;
+    }
+    
+    .view-more-container {
+        margin-top: 15px;
+        padding-top: 10px;
     }
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
-    .product-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 20px;
-    }
-    
-    .hero-text h2 {
-        font-size: 28px;
-    }
-    
-    section {
-        margin: 16px;
-        padding: 20px;
-    }
-}
-
+/* Small mobile (under 480px) - still 3 columns */
 @media (max-width: 480px) {
-    .hero-text h2 {
-        font-size: 14px;
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 6px;
     }
     
-    .hero-text p {
-        font-size: 10px;
+    .product img {
+        height: 70px;
     }
     
     .product h3 {
-        font-size: 13px;
+        font-size: 9px;
     }
     
     .price {
-        font-size: 16px;
+        font-size: 10px;
     }
     
     .buy {
-        padding: 8px 12px;
-        font-size: 12px;
+        font-size: 8px;
+        padding: 4px 6px;
     }
     
-    .deal-card {
-        padding: 12px;
+    .hero-text h2 {
         font-size: 12px;
+    }
+}
+
+/* Tablet (769px - 1024px) - 4 columns */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .product-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 15px;
+    }
+    
+    .hero-text h2 {
+        font-size: 24px;
+    }
+    
+    section {
+        margin: 15px;
+        padding: 18px;
+    }
+}
+
+/* Desktop - 5 columns for better density */
+@media (min-width: 1025px) {
+    .product-grid {
+        grid-template-columns: repeat(5, 1fr) !important;
+        gap: 20px;
     }
 }
