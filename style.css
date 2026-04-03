@@ -488,3 +488,33 @@ footer {
         gap: 20px;
     }
 }
+/* Print styles for better SEO */
+@media print {
+    header, footer, .view-more-btn, .deal-card {
+        display: none;
+    }
+    
+    .product {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+}
+
+/* Improve loading performance */
+img {
+    aspect-ratio: 1 / 1;
+    loading: lazy;
+}
+
+/* Accessibility for SEO */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
