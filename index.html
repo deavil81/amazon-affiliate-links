@@ -2,150 +2,85 @@
 <html lang="en">
 
 <head>
-
-<meta charset="UTF-8">
-
-<title>Best Deals Hub | Amazon Deals & Trending Products</title>
-
-<meta name="description"
-content="Find the best Amazon deals, trending gadgets, fashion and home appliances at the lowest prices.">
-
-<meta name="keywords"
-content="Amazon deals India, best gadgets India, trending products, affiliate deals, best Amazon deals">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <title>Best Deals Hub | Amazon Deals & Trending Products</title>
+    <meta name="description" content="Find the best Amazon deals, trending gadgets, fashion and home appliances at the lowest prices.">
+    <meta name="keywords" content="Amazon deals India, best gadgets India, trending products, affiliate deals, best Amazon deals">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 
 <body>
 
+    <header>
+        <h1>🛍️ Best Deals Hub</h1>
+        <input type="text" id="search" placeholder="🔍 Search deals...">
+    </header>
 
-<header>
+    <!-- HERO BANNER -->
+    <section class="hero-banner">
+        <img src="https://images.unsplash.com/photo-1607083206968-13611e3d76db?w=1200" alt="Deals Banner">
+        <div class="hero-text">
+            <h2>🔥 Save up to 70% on Trending Products</h2>
+            <p>Electronics • Fashion • Home Appliances • Fitness</p>
+        </div>
+    </section>
 
-<h1>Best Deals Hub</h1>
+    <!-- TODAY DEALS (Categories) -->
+    <section class="today-deals">
+        <h2>⚡ Shop by Category</h2>
+        <div class="deal-grid">
+            <div class="deal-card" onclick="filterCategoryFromCard('electronic')">
+                ⚡ Electronics
+                <p>Top Gadgets & Accessories</p>
+            </div>
+            <div class="deal-card" onclick="filterCategoryFromCard('fashion')">
+                👗 Fashion
+                <p>Trending Styles</p>
+            </div>
+            <div class="deal-card" onclick="filterCategoryFromCard('home appliances')">
+                🏠 Home Appliances
+                <p>Smart Home Deals</p>
+            </div>
+            <div class="deal-card" onclick="filterCategoryFromCard('fitness')">
+                💪 Fitness
+                <p>Workout Essentials</p>
+            </div>
+        </div>
+    </section>
 
-<input type="text" id="search" placeholder="Search deals...">
+    <!-- TOP DEALS SECTION -->
+    <section class="top-deals" id="topDealsSection">
+        <div id="topDeals"></div>
+    </section>
 
-</header>
+    <!-- BEST SELLERS SECTION -->
+    <section class="best-sellers" id="bestSellersSection">
+        <div id="bestSellers"></div>
+    </section>
 
+    <!-- BUDGET DEALS SECTION -->
+    <section class="budget-deals" id="budgetDealsSection">
+        <div id="budgetDeals"></div>
+    </section>
 
+    <!-- CATEGORIES SECTION -->
+    <section>
+        <h2>📂 Browse Categories</h2>
+        <div id="categories" class="category-grid"></div>
+    </section>
 
-<!-- HERO BANNER -->
+    <!-- TRENDING PRODUCTS SECTION -->
+    <section>
+        <div id="products"></div>
+    </section>
 
-<section class="hero-banner">
+    <footer>
+        <p>© 2026 Best Deals Hub | Amazon Affiliate Website | We earn commission on qualifying purchases</p>
+    </footer>
 
-<img src="https://images.unsplash.com/photo-1607083206968-13611e3d76db">
-
-<div class="hero-text">
-
-<h2>🔥 Save up to 70% on Trending Products</h2>
-
-<p>Electronics • Fashion • Home Appliances • Fitness</p>
-
-</div>
-
-</section>
-
-<section class="top-deals">
-
-<h2>🔥 Top Deals Today</h2>
-
-<div id="topDeals" class="product-grid"></div>
-
-</section>
-
-
-<section class="best-sellers">
-
-<h2>⭐ Best Sellers</h2>
-
-<div id="bestSellers" class="product-grid"></div>
-
-</section>
-
-
-<section class="budget-deals">
-
-<h2>💰 Deals Under ₹999</h2>
-
-<div id="budgetDeals" class="product-grid"></div>
-
-</section>
-
-<!-- TODAY DEALS -->
-
-<section class="today-deals">
-
-<h2>🔥 Today's Best Deals</h2>
-
-<div class="deal-grid">
-
-<div class="deal-card" onclick="filterCategory('electronic')">
-⚡ Electronics
-<p>Top Gadgets & Accessories</p>
-</div>
-
-<div class="deal-card" onclick="filterCategory('fashion')">
-👗 Fashion
-<p>Trending Styles</p>
-</div>
-
-<div class="deal-card" onclick="filterCategory('home appliances')">
-🏠 Home Appliances
-<p>Smart Home Deals</p>
-</div>
-
-<div class="deal-card" onclick="filterCategory('fitness')">
-💪 Fitness
-<p>Workout Essentials</p>
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- CATEGORIES -->
-
-<section>
-
-<h2>Categories</h2>
-
-<div id="categories" class="category-grid"></div>
-
-</section>
-
-
-
-<!-- TRENDING PRODUCTS -->
-
-<section>
-
-<h2>Trending Products</h2>
-
-<div id="products" class="product-grid"></div>
-
-</section>
-
-
-
-<footer>
-
-<p>© 2026 Best Deals Hub | Affiliate Website</p>
-
-</footer>
-
-
-
-<script src="script.js"></script>
-
+    <script src="script.js"></script>
 
 </body>
+
 </html>
-
-
-
