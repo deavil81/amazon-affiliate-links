@@ -11,14 +11,17 @@ let allProducts = [];
 
 // Load products from Google Sheets
 async function loadProducts() {
+    console.log("Loading products from Google Sheets...");
     showLoading();
     
     for (const sheet of sheets) {
         const url = `https://opensheet.elk.sh/${SHEET_ID}/${sheet}`;
+        console.log(`Fetching: ${sheet}`);
         
         try {
             const res = await fetch(url);
             const data = await res.json();
+            console.log(`Loaded ${data.length} products from ${sheet}`);
             
             data.forEach(product => {
                 product.category = sheet;
@@ -31,9 +34,31 @@ async function loadProducts() {
         }
     }
     
+    console.log(`Total products loaded: ${allProducts.length}`);
+    
+    if (allProducts.length === 0) {
+        // Load sample data if Google Sheets fails
+        loadSampleData();
+    }
+    
     renderSections();
     renderTrendingProducts(allProducts);
     setupSearch();
+}
+
+// Sample data in case Google Sheets doesn't work
+function loadSampleData() {
+    console.log("Loading sample data...");
+    allProducts = [
+        { name: "OnePlus Nord Buds 3r TWS", price: 1999, oldPrice: 3999, category: "electronic", description: "TWS Earbuds up to 54 Hours Playback, 2-mic Clear Calls", image: "https://via.placeholder.com/200x200?text=OnePlus+Buds", link: "#" },
+        { name: "Carrier 1.5 Ton AC", price: 34990, oldPrice: 49990, category: "electronic", description: "3 Star Wi-Fi Smart Flexicool Inverter Split AC", image: "https://via.placeholder.com/200x200?text=Carrier+AC", link: "#" },
+        { name: "Samsung 1.5 Ton 3 Star AC", price: 36490, oldPrice: 52990, category: "electronic", description: "Bespoke AI Inverter Smart Split AC", image: "https://via.placeholder.com/200x200?text=Samsung+AC", link: "#" },
+        { name: "Voltas 1.5 Ton AC", price: 38490, oldPrice: 54990, category: "electronic", description: "3 star inverter Split AC", image: "https://via.placeholder.com/200x200?text=Voltas+AC", link: "#" },
+        { name: "Noise Master Buds 2", price: 9999, oldPrice: 19999, category: "electronic", description: "51dB Adaptive ANC, Hi-Res LHDC Audio", image: "https://via.placeholder.com/200x200?text=Noise+Buds", link: "#" },
+        { name: "Cotton Printed Wrapper Skirt", price: 389, oldPrice: 999, category: "fashion", description: "Women's Jaipuri Cotton Printed Wrapper Skirt", image: "https://via.placeholder.com/200x200?text=Skirt", link: "#" },
+        { name: "Women Anarkali Kurti", price: 699, oldPrice: 1999, category: "fashion", description: "Long A-Line Flared Ethnic Wear Kurta", image: "https://via.placeholder.com/200x200?text=Anarkali", link: "#" },
+        { name: "Mini AC Air Cooler", price: 499, oldPrice: 1999, category: "home appliances", description: "Portable Mini Fan Arctic Cooler", image: "https://via.placeholder.com/200x200?text=Mini+AC", link: "#" }
+    ];
 }
 
 // Show loading indicator
@@ -45,7 +70,8 @@ function showLoading() {
 
 // Render all sections with View More
 function renderSections() {
-    // Get products for each section
+    if (allProducts.length === 0) return;
+    
     const topDeals = allProducts.slice(0, 8);
     const bestSellers = allProducts.slice(4, 12);
     const budgetDeals = allProducts.filter(p => Number(p.price) <= 999);
@@ -65,25 +91,20 @@ function renderCustomWithViewMore(products, containerID, sectionTitle) {
     const visibleProducts = products.slice(0, itemsToShow);
     const hiddenProducts = products.slice(itemsToShow);
     
-    // Clear container
     container.innerHTML = "";
     
-    // Add section header
     const headerDiv = document.createElement('div');
     headerDiv.className = 'section-header';
     headerDiv.innerHTML = `<h2>${sectionTitle}</h2>`;
     container.appendChild(headerDiv);
     
-    // Create product grid
     const gridDiv = document.createElement('div');
     gridDiv.className = 'product-grid';
     
-    // Add visible products
     visibleProducts.forEach(product => {
         gridDiv.appendChild(createProductElement(product));
     });
     
-    // Add hidden products
     hiddenProducts.forEach(product => {
         const productEl = createProductElement(product);
         productEl.classList.add('hidden-product');
@@ -92,7 +113,6 @@ function renderCustomWithViewMore(products, containerID, sectionTitle) {
     
     container.appendChild(gridDiv);
     
-    // Add View More button if needed
     if (hasMore) {
         const viewMoreDiv = document.createElement('div');
         viewMoreDiv.className = 'view-more-container';
@@ -102,14 +122,11 @@ function renderCustomWithViewMore(products, containerID, sectionTitle) {
             </button>
         `;
         container.appendChild(viewMoreDiv);
-        
-        // Store products data
-        window[`${containerID}_products`] = products;
         window[`${containerID}_hiddenCount`] = hiddenProducts.length;
     }
 }
 
-// Create individual product element
+// Create product element
 function createProductElement(product) {
     const div = document.createElement('div');
     div.className = 'product';
@@ -117,17 +134,21 @@ function createProductElement(product) {
     const price = Number(product.price) || 0;
     const oldPrice = Number(product.oldPrice) || 0;
     const discount = oldPrice > 0 ? Math.round(((oldPrice - price) / oldPrice) * 100) : 0;
+    const productName = product.name || 'Product';
+    const productDesc = product.description || '';
+    const productImage = product.image || 'https://via.placeholder.com/200x200?text=Product';
+    const productLink = product.link || '#';
     
     div.innerHTML = `
-        <img src="${product.image || 'https://via.placeholder.com/200x200?text=No+Image'}" alt="${product.name || 'Product'}" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=Image+Not+Found'">
-        <h3>${(product.name || 'Product').substring(0, 60)}</h3>
-        <p>${(product.description || '').substring(0, 100)}${(product.description || '').length > 100 ? '...' : ''}</p>
+        <img src="${productImage}" alt="${productName}" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=Image+Error'">
+        <h3>${productName.length > 60 ? productName.substring(0, 60) + '...' : productName}</h3>
+        <p>${productDesc.length > 100 ? productDesc.substring(0, 100) + '...' : productDesc}</p>
         <div class="price">
             ₹${price.toLocaleString('en-IN')}
             ${oldPrice > 0 ? `<span class="old-price">₹${oldPrice.toLocaleString('en-IN')}</span>` : ''}
             ${discount > 0 ? `<span class="discount">(${discount}% off)</span>` : ''}
         </div>
-        <a href="${product.link || '#'}" class="buy" target="_blank" rel="sponsored nofollow">
+        <a href="${productLink}" class="buy" target="_blank" rel="sponsored nofollow">
             View Deal →
         </a>
     `;
@@ -135,7 +156,7 @@ function createProductElement(product) {
     return div;
 }
 
-// Toggle View More/Less for sections
+// Toggle View More
 window.toggleSection = function(containerID) {
     const container = document.getElementById(containerID);
     if (!container) return;
@@ -147,23 +168,13 @@ window.toggleSection = function(containerID) {
     const isExpanded = button.textContent.includes('Show Less');
     
     if (isExpanded) {
-        // Collapse
-        hiddenProducts.forEach(product => {
-            product.classList.add('hidden-product');
-        });
+        hiddenProducts.forEach(product => product.classList.add('hidden-product'));
         const hiddenCount = window[`${containerID}_hiddenCount`] || hiddenProducts.length;
         button.textContent = `View More (${hiddenCount} more) ↓`;
     } else {
-        // Expand
-        hiddenProducts.forEach(product => {
-            product.classList.remove('hidden-product');
-        });
+        hiddenProducts.forEach(product => product.classList.remove('hidden-product'));
         button.textContent = 'Show Less ↑';
-        
-        // Smooth scroll
-        setTimeout(() => {
-            button.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, 100);
+        setTimeout(() => button.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
     }
 };
 
@@ -175,19 +186,8 @@ function createCategory(category) {
     categoryDiv.className = 'category';
     categoryDiv.onclick = () => filterCategory(category);
     
-    const emoji = {
-        'electronic': '⚡',
-        'home appliances': '🏠',
-        'fashion': '👗',
-        'fitness': '💪'
-    }[category] || '📦';
-    
-    const displayName = {
-        'electronic': 'Electronics',
-        'home appliances': 'Home Appliances',
-        'fashion': 'Fashion',
-        'fitness': 'Fitness'
-    }[category] || category;
+    const emoji = { 'electronic': '⚡', 'home appliances': '🏠', 'fashion': '👗', 'fitness': '💪' }[category] || '📦';
+    const displayName = { 'electronic': 'Electronics', 'home appliances': 'Home Appliances', 'fashion': 'Fashion', 'fitness': 'Fitness' }[category] || category;
     
     categoryDiv.innerHTML = `${emoji} ${displayName}`;
     categoryContainer.appendChild(categoryDiv);
@@ -197,47 +197,33 @@ function createCategory(category) {
 window.filterCategory = function(category) {
     const filtered = allProducts.filter(p => p.category === category);
     renderTrendingProducts(filtered);
-    
-    // Scroll to products
-    if (productContainer) {
-        productContainer.scrollIntoView({ behavior: 'smooth' });
-    }
-    
-    // Highlight active
-    document.querySelectorAll('.category').forEach(cat => {
-        cat.style.opacity = '0.6';
-    });
-    if (event && event.target) {
-        event.target.style.opacity = '1';
-    }
+    if (productContainer) productContainer.scrollIntoView({ behavior: 'smooth' });
 };
 
 // Filter from deal cards
 window.filterCategoryFromCard = function(category) {
     const filtered = allProducts.filter(p => p.category === category);
     renderTrendingProducts(filtered);
-    
-    if (productContainer) {
-        productContainer.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (productContainer) productContainer.scrollIntoView({ behavior: 'smooth' });
 };
 
-// Render trending products with View More (FIXED - used by search)
+// Render trending products (FIXED SEARCH)
 function renderTrendingProducts(products) {
+    console.log("Rendering products:", products.length);
+    
     if (!productContainer) return;
     
     productContainer.innerHTML = "";
     
-    // Add header
     const headerDiv = document.createElement('div');
     headerDiv.className = 'section-header';
     headerDiv.innerHTML = `<h2>🔥 Trending Products</h2>`;
     productContainer.appendChild(headerDiv);
     
-    if (products.length === 0) {
+    if (!products || products.length === 0) {
         const noResults = document.createElement('div');
         noResults.className = 'no-results';
-        noResults.innerHTML = '<p style="text-align:center;padding:40px;">🔍 No products found. Try another search!</p>';
+        noResults.innerHTML = '<p style="text-align:center;padding:40px;">🔍 No products found. Try "AC" or "Buds"</p>';
         productContainer.appendChild(noResults);
         return;
     }
@@ -247,14 +233,10 @@ function renderTrendingProducts(products) {
     const visibleProducts = products.slice(0, itemsToShow);
     const hiddenProducts = products.slice(itemsToShow);
     
-    // Create grid
     const gridDiv = document.createElement('div');
     gridDiv.className = 'product-grid';
     
-    visibleProducts.forEach(product => {
-        gridDiv.appendChild(createProductElement(product));
-    });
-    
+    visibleProducts.forEach(product => gridDiv.appendChild(createProductElement(product)));
     hiddenProducts.forEach(product => {
         const productEl = createProductElement(product);
         productEl.classList.add('hidden-product');
@@ -263,17 +245,11 @@ function renderTrendingProducts(products) {
     
     productContainer.appendChild(gridDiv);
     
-    // Add View More button
     if (hasMore) {
         const viewMoreDiv = document.createElement('div');
         viewMoreDiv.className = 'view-more-container';
-        viewMoreDiv.innerHTML = `
-            <button class="view-more-btn" onclick="toggleTrendingSection()">
-                View More (${hiddenProducts.length} more) ↓
-            </button>
-        `;
+        viewMoreDiv.innerHTML = `<button class="view-more-btn" onclick="toggleTrendingSection()">View More (${hiddenProducts.length} more) ↓</button>`;
         productContainer.appendChild(viewMoreDiv);
-        
         window.trendingProducts = products;
         window.trendingHiddenCount = hiddenProducts.length;
     }
@@ -298,36 +274,35 @@ window.toggleTrendingSection = function() {
     }
 };
 
-// Search functionality (FIXED)
+// SEARCH FUNCTIONALITY - FIXED
 function setupSearch() {
     const searchInput = document.getElementById('search');
-    if (searchInput) {
-        searchInput.addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase().trim();
-            
-            console.log("Searching for:", searchTerm); // Debug
-            
-            if (searchTerm === "") {
-                // Show all products when search is empty
-                renderTrendingProducts(allProducts);
-                return;
-            }
-            
-            // Filter products by name, category, or description
-            const filtered = allProducts.filter(product => {
-                const nameMatch = product.name && product.name.toLowerCase().includes(searchTerm);
-                const categoryMatch = product.category && product.category.toLowerCase().includes(searchTerm);
-                const descMatch = product.description && product.description.toLowerCase().includes(searchTerm);
-                
-                return nameMatch || categoryMatch || descMatch;
-            });
-            
-            console.log("Found:", filtered.length, "products"); // Debug
-            
-            // Render filtered results
-            renderTrendingProducts(filtered);
-        });
+    if (!searchInput) {
+        console.log("Search input not found!");
+        return;
     }
+    
+    console.log("Search setup complete");
+    
+    searchInput.addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase().trim();
+        console.log("Search term:", searchTerm);
+        
+        if (searchTerm === "") {
+            renderTrendingProducts(allProducts);
+            return;
+        }
+        
+        const filtered = allProducts.filter(product => {
+            const nameMatch = product.name && product.name.toLowerCase().includes(searchTerm);
+            const categoryMatch = product.category && product.category.toLowerCase().includes(searchTerm);
+            const descMatch = product.description && product.description.toLowerCase().includes(searchTerm);
+            return nameMatch || categoryMatch || descMatch;
+        });
+        
+        console.log(`Found ${filtered.length} products for "${searchTerm}"`);
+        renderTrendingProducts(filtered);
+    });
 }
 
 // Initialize
