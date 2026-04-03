@@ -9,13 +9,6 @@ const categoryContainer = document.getElementById("categories");
 // Store all products
 let allProducts = [];
 
-// Store section states
-let sectionStates = {
-    topDeals: { shown: 4, expanded: false },
-    bestSellers: { shown: 4, expanded: false },
-    budgetDeals: { shown: 4, expanded: false }
-};
-
 // Load products from Google Sheets
 async function loadProducts() {
     showLoading();
@@ -39,14 +32,14 @@ async function loadProducts() {
     }
     
     renderSections();
-    renderProducts(allProducts);
+    renderTrendingProducts(allProducts);
     setupSearch();
 }
 
 // Show loading indicator
 function showLoading() {
     if (productContainer) {
-        productContainer.innerHTML = '<div class="loading">Loading products... 🔄</div>';
+        productContainer.innerHTML = '<div class="loading" style="text-align:center;padding:40px;">Loading products... 🔄</div>';
     }
 }
 
@@ -203,7 +196,7 @@ function createCategory(category) {
 // Filter by category
 window.filterCategory = function(category) {
     const filtered = allProducts.filter(p => p.category === category);
-    renderProducts(filtered);
+    renderTrendingProducts(filtered);
     
     // Scroll to products
     if (productContainer) {
@@ -222,15 +215,15 @@ window.filterCategory = function(category) {
 // Filter from deal cards
 window.filterCategoryFromCard = function(category) {
     const filtered = allProducts.filter(p => p.category === category);
-    renderProducts(filtered);
+    renderTrendingProducts(filtered);
     
     if (productContainer) {
         productContainer.scrollIntoView({ behavior: 'smooth' });
     }
 };
 
-// Render trending products with View More
-function renderProducts(products) {
+// Render trending products with View More (FIXED - used by search)
+function renderTrendingProducts(products) {
     if (!productContainer) return;
     
     productContainer.innerHTML = "";
@@ -240,6 +233,14 @@ function renderProducts(products) {
     headerDiv.className = 'section-header';
     headerDiv.innerHTML = `<h2>🔥 Trending Products</h2>`;
     productContainer.appendChild(headerDiv);
+    
+    if (products.length === 0) {
+        const noResults = document.createElement('div');
+        noResults.className = 'no-results';
+        noResults.innerHTML = '<p style="text-align:center;padding:40px;">🔍 No products found. Try another search!</p>';
+        productContainer.appendChild(noResults);
+        return;
+    }
     
     const itemsToShow = 6;
     const hasMore = products.length > itemsToShow;
@@ -297,25 +298,34 @@ window.toggleTrendingSection = function() {
     }
 };
 
-// Search functionality
+// Search functionality (FIXED)
 function setupSearch() {
     const searchInput = document.getElementById('search');
     if (searchInput) {
         searchInput.addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase().trim();
             
+            console.log("Searching for:", searchTerm); // Debug
+            
             if (searchTerm === "") {
-                renderProducts(allProducts);
+                // Show all products when search is empty
+                renderTrendingProducts(allProducts);
                 return;
             }
             
-            const filtered = allProducts.filter(p => 
-                (p.name && p.name.toLowerCase().includes(searchTerm)) || 
-                (p.category && p.category.toLowerCase().includes(searchTerm)) ||
-                (p.description && p.description.toLowerCase().includes(searchTerm))
-            );
+            // Filter products by name, category, or description
+            const filtered = allProducts.filter(product => {
+                const nameMatch = product.name && product.name.toLowerCase().includes(searchTerm);
+                const categoryMatch = product.category && product.category.toLowerCase().includes(searchTerm);
+                const descMatch = product.description && product.description.toLowerCase().includes(searchTerm);
+                
+                return nameMatch || categoryMatch || descMatch;
+            });
             
-            renderProducts(filtered);
+            console.log("Found:", filtered.length, "products"); // Debug
+            
+            // Render filtered results
+            renderTrendingProducts(filtered);
         });
     }
 }
