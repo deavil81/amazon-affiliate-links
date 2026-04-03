@@ -41,7 +41,6 @@ async function loadProducts() {
     
     renderSections();
     renderTrendingProducts(allProducts);
-    setupSearch();
 }
 
 // Sample data
@@ -206,7 +205,7 @@ function renderTrendingProducts(products) {
     if (!products || products.length === 0) {
         const noResults = document.createElement('div');
         noResults.className = 'no-results';
-        noResults.innerHTML = '<p style="text-align:center;padding:40px;">🔍 No products found. Try "AC" or "Buds"</p>';
+        noResults.innerHTML = '<p style="text-align:center;padding:40px;">🔍 No products found.</p>';
         productContainer.appendChild(noResults);
         return;
     }
@@ -255,56 +254,6 @@ window.toggleTrendingSection = function() {
         button.textContent = 'Show Less ↑';
     }
 };
-
-// SEARCH WITH BUTTON - FIXED
-function setupSearch() {
-    const searchInput = document.getElementById('search');
-    const searchBtn = document.getElementById('searchBtn');
-    
-    if (!searchInput || !searchBtn) {
-        console.log("Search elements not found!");
-        return;
-    }
-    
-    console.log("Search setup complete with button");
-    
-    // Search when button is clicked
-    searchBtn.addEventListener('click', function() {
-        performSearch();
-    });
-    
-    // Also search when Enter key is pressed
-    searchInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            performSearch();
-        }
-    });
-    
-    function performSearch() {
-        const searchTerm = searchInput.value.toLowerCase().trim();
-        console.log("Searching for:", searchTerm);
-        
-        if (searchTerm === "") {
-            renderTrendingProducts(allProducts);
-            return;
-        }
-        
-        const filtered = allProducts.filter(product => {
-            const nameMatch = product.name && product.name.toLowerCase().includes(searchTerm);
-            const categoryMatch = product.category && product.category.toLowerCase().includes(searchTerm);
-            const descMatch = product.description && product.description.toLowerCase().includes(searchTerm);
-            return nameMatch || categoryMatch || descMatch;
-        });
-        
-        console.log(`Found ${filtered.length} products for "${searchTerm}"`);
-        renderTrendingProducts(filtered);
-        
-        // Scroll to results
-        if (productContainer) {
-            productContainer.scrollIntoView({ behavior: 'smooth' });
-        }
-    }
-}
 
 // Initialize
 loadProducts();
