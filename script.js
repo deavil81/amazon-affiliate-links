@@ -16,7 +16,6 @@ async function loadProducts() {
     
     for (const sheet of sheets) {
         const url = `https://opensheet.elk.sh/${SHEET_ID}/${sheet}`;
-        console.log(`Fetching: ${sheet}`);
         
         try {
             const res = await fetch(url);
@@ -37,7 +36,6 @@ async function loadProducts() {
     console.log(`Total products loaded: ${allProducts.length}`);
     
     if (allProducts.length === 0) {
-        // Load sample data if Google Sheets fails
         loadSampleData();
     }
     
@@ -46,29 +44,27 @@ async function loadProducts() {
     setupSearch();
 }
 
-// Sample data in case Google Sheets doesn't work
+// Sample data
 function loadSampleData() {
     console.log("Loading sample data...");
     allProducts = [
-        { name: "OnePlus Nord Buds 3r TWS", price: 1999, oldPrice: 3999, category: "electronic", description: "TWS Earbuds up to 54 Hours Playback, 2-mic Clear Calls", image: "https://via.placeholder.com/200x200?text=OnePlus+Buds", link: "#" },
-        { name: "Carrier 1.5 Ton AC", price: 34990, oldPrice: 49990, category: "electronic", description: "3 Star Wi-Fi Smart Flexicool Inverter Split AC", image: "https://via.placeholder.com/200x200?text=Carrier+AC", link: "#" },
-        { name: "Samsung 1.5 Ton 3 Star AC", price: 36490, oldPrice: 52990, category: "electronic", description: "Bespoke AI Inverter Smart Split AC", image: "https://via.placeholder.com/200x200?text=Samsung+AC", link: "#" },
+        { name: "OnePlus Nord Buds 3r TWS", price: 1999, oldPrice: 3999, category: "electronic", description: "TWS Earbuds up to 54 Hours Playback", image: "https://via.placeholder.com/200x200?text=OnePlus+Buds", link: "#" },
+        { name: "Carrier 1.5 Ton AC", price: 34990, oldPrice: 49990, category: "electronic", description: "3 Star Wi-Fi Smart Inverter Split AC", image: "https://via.placeholder.com/200x200?text=Carrier+AC", link: "#" },
+        { name: "Samsung 1.5 Ton AC", price: 36490, oldPrice: 52990, category: "electronic", description: "Bespoke AI Inverter Smart Split AC", image: "https://via.placeholder.com/200x200?text=Samsung+AC", link: "#" },
         { name: "Voltas 1.5 Ton AC", price: 38490, oldPrice: 54990, category: "electronic", description: "3 star inverter Split AC", image: "https://via.placeholder.com/200x200?text=Voltas+AC", link: "#" },
-        { name: "Noise Master Buds 2", price: 9999, oldPrice: 19999, category: "electronic", description: "51dB Adaptive ANC, Hi-Res LHDC Audio", image: "https://via.placeholder.com/200x200?text=Noise+Buds", link: "#" },
-        { name: "Cotton Printed Wrapper Skirt", price: 389, oldPrice: 999, category: "fashion", description: "Women's Jaipuri Cotton Printed Wrapper Skirt", image: "https://via.placeholder.com/200x200?text=Skirt", link: "#" },
-        { name: "Women Anarkali Kurti", price: 699, oldPrice: 1999, category: "fashion", description: "Long A-Line Flared Ethnic Wear Kurta", image: "https://via.placeholder.com/200x200?text=Anarkali", link: "#" },
-        { name: "Mini AC Air Cooler", price: 499, oldPrice: 1999, category: "home appliances", description: "Portable Mini Fan Arctic Cooler", image: "https://via.placeholder.com/200x200?text=Mini+AC", link: "#" }
+        { name: "Noise Master Buds 2", price: 9999, oldPrice: 19999, category: "electronic", description: "51dB Adaptive ANC", image: "https://via.placeholder.com/200x200?text=Noise+Buds", link: "#" },
+        { name: "Cotton Printed Skirt", price: 389, oldPrice: 999, category: "fashion", description: "Women's Jaipuri Cotton Printed Skirt", image: "https://via.placeholder.com/200x200?text=Skirt", link: "#" },
+        { name: "Women Anarkali Kurti", price: 699, oldPrice: 1999, category: "fashion", description: "Long A-Line Flared Ethnic Kurti", image: "https://via.placeholder.com/200x200?text=Anarkali", link: "#" },
+        { name: "Mini AC Air Cooler", price: 499, oldPrice: 1999, category: "home appliances", description: "Portable Mini Fan Cooler", image: "https://via.placeholder.com/200x200?text=Mini+AC", link: "#" }
     ];
 }
 
-// Show loading indicator
 function showLoading() {
     if (productContainer) {
         productContainer.innerHTML = '<div class="loading" style="text-align:center;padding:40px;">Loading products... 🔄</div>';
     }
 }
 
-// Render all sections with View More
 function renderSections() {
     if (allProducts.length === 0) return;
     
@@ -81,7 +77,6 @@ function renderSections() {
     renderCustomWithViewMore(budgetDeals, "budgetDeals", "💰 Deals Under ₹999");
 }
 
-// Render a section with View More button
 function renderCustomWithViewMore(products, containerID, sectionTitle) {
     const container = document.getElementById(containerID);
     if (!container) return;
@@ -126,7 +121,6 @@ function renderCustomWithViewMore(products, containerID, sectionTitle) {
     }
 }
 
-// Create product element
 function createProductElement(product) {
     const div = document.createElement('div');
     div.className = 'product';
@@ -134,21 +128,17 @@ function createProductElement(product) {
     const price = Number(product.price) || 0;
     const oldPrice = Number(product.oldPrice) || 0;
     const discount = oldPrice > 0 ? Math.round(((oldPrice - price) / oldPrice) * 100) : 0;
-    const productName = product.name || 'Product';
-    const productDesc = product.description || '';
-    const productImage = product.image || 'https://via.placeholder.com/200x200?text=Product';
-    const productLink = product.link || '#';
     
     div.innerHTML = `
-        <img src="${productImage}" alt="${productName}" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=Image+Error'">
-        <h3>${productName.length > 60 ? productName.substring(0, 60) + '...' : productName}</h3>
-        <p>${productDesc.length > 100 ? productDesc.substring(0, 100) + '...' : productDesc}</p>
+        <img src="${product.image || 'https://via.placeholder.com/200x200?text=Product'}" alt="${product.name || 'Product'}" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=Image+Error'">
+        <h3>${(product.name || 'Product').substring(0, 60)}</h3>
+        <p>${(product.description || '').substring(0, 100)}${(product.description || '').length > 100 ? '...' : ''}</p>
         <div class="price">
             ₹${price.toLocaleString('en-IN')}
             ${oldPrice > 0 ? `<span class="old-price">₹${oldPrice.toLocaleString('en-IN')}</span>` : ''}
             ${discount > 0 ? `<span class="discount">(${discount}% off)</span>` : ''}
         </div>
-        <a href="${productLink}" class="buy" target="_blank" rel="sponsored nofollow">
+        <a href="${product.link || '#'}" class="buy" target="_blank" rel="sponsored nofollow">
             View Deal →
         </a>
     `;
@@ -156,7 +146,6 @@ function createProductElement(product) {
     return div;
 }
 
-// Toggle View More
 window.toggleSection = function(containerID) {
     const container = document.getElementById(containerID);
     if (!container) return;
@@ -178,7 +167,6 @@ window.toggleSection = function(containerID) {
     }
 };
 
-// Create category button
 function createCategory(category) {
     if (!categoryContainer) return;
     
@@ -193,24 +181,19 @@ function createCategory(category) {
     categoryContainer.appendChild(categoryDiv);
 }
 
-// Filter by category
 window.filterCategory = function(category) {
     const filtered = allProducts.filter(p => p.category === category);
     renderTrendingProducts(filtered);
     if (productContainer) productContainer.scrollIntoView({ behavior: 'smooth' });
 };
 
-// Filter from deal cards
 window.filterCategoryFromCard = function(category) {
     const filtered = allProducts.filter(p => p.category === category);
     renderTrendingProducts(filtered);
     if (productContainer) productContainer.scrollIntoView({ behavior: 'smooth' });
 };
 
-// Render trending products (FIXED SEARCH)
 function renderTrendingProducts(products) {
-    console.log("Rendering products:", products.length);
-    
     if (!productContainer) return;
     
     productContainer.innerHTML = "";
@@ -255,7 +238,6 @@ function renderTrendingProducts(products) {
     }
 }
 
-// Toggle trending section
 window.toggleTrendingSection = function() {
     if (!productContainer) return;
     
@@ -274,19 +256,33 @@ window.toggleTrendingSection = function() {
     }
 };
 
-// SEARCH FUNCTIONALITY - FIXED
+// SEARCH WITH BUTTON - FIXED
 function setupSearch() {
     const searchInput = document.getElementById('search');
-    if (!searchInput) {
-        console.log("Search input not found!");
+    const searchBtn = document.getElementById('searchBtn');
+    
+    if (!searchInput || !searchBtn) {
+        console.log("Search elements not found!");
         return;
     }
     
-    console.log("Search setup complete");
+    console.log("Search setup complete with button");
     
-    searchInput.addEventListener('input', function(e) {
-        const searchTerm = e.target.value.toLowerCase().trim();
-        console.log("Search term:", searchTerm);
+    // Search when button is clicked
+    searchBtn.addEventListener('click', function() {
+        performSearch();
+    });
+    
+    // Also search when Enter key is pressed
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            performSearch();
+        }
+    });
+    
+    function performSearch() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        console.log("Searching for:", searchTerm);
         
         if (searchTerm === "") {
             renderTrendingProducts(allProducts);
@@ -302,7 +298,12 @@ function setupSearch() {
         
         console.log(`Found ${filtered.length} products for "${searchTerm}"`);
         renderTrendingProducts(filtered);
-    });
+        
+        // Scroll to results
+        if (productContainer) {
+            productContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
 }
 
 // Initialize
